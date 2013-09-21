@@ -1,0 +1,52 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.container-narrow {
+  margin: 0 auto;
+  padding:4em;
+  max-width: 600px;
+}
+
+
+#roll-descriptor {
+  font-size:21px;
+  height:34px;
+}
+
+ul.roll-results {
+  padding:0;
+  margin:0;
+}
+
+ul.roll-results li {
+  display:inline-block;
+  padding:1em;
+}
+
+ul.roll-results li .num {
+  font-size:55px;
+  line-height:55px;
+}
+
+ul.roll-results li .den {
+  font-size:35px;
+  line-height:45px;
+  color:#aaa;
+  vertical-align:top;
+}
+
+.total-display { float:right; }
+
+.total-display .msg {
+  font-size:35px;
+  line-height:45px;
+  color:#aaa;
+  vertical-align:top;
+}
+
+.total-display .total {
+  font-size:55px;
+  line-height:55px;
+}
