@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dicey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      .container-narrow {
+        margin: 0 auto;
+        padding:4em;
+        max-width: 600px;
+      }
+
+
+      #roll-descriptor {
+        font-size:21px;
+        height:34px;
+      }
+
+      ul.roll-results {
+        padding:0;
+        margin:0;
+      }
+
+      ul.roll-results li {
+        display:inline-block;
+        padding:1em;
+      }
+
+      ul.roll-results li .num {
+        font-size:55px;
+        line-height:55px;
+      }
+
+      ul.roll-results li .den {
+        font-size:35px;
+        line-height:45px;
+        color:#aaa;
+        vertical-align:top;
+      }
+
+      .total-display { float:right; }
+
+      .total-display .msg {
+        font-size:35px;
+        line-height:45px;
+        color:#aaa;
+        vertical-align:top;
+      }
+
+      .total-display .total {
+        font-size:55px;
+        line-height:55px;
+      }
+
+      
+    </style>
+    
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script src="parser.js"></script>
+    <script>
+      var descriptors;
+
+      function roll() {
+        $(".current-result").html("");
+
+        var total = 0, mod = 0;
+
+        var ul = $("<ul/>").addClass("roll-results");
+
+        for (var idx = 0; idx < descriptors.length; ++idx) {
+          mod += descriptors[idx].modifier;
+          for (var idxQ = 0; idxQ < descriptors[idx].quantity; ++idxQ) {
+            var n = Math.floor(Math.random() * descriptors[idx].sides + 1);
+            total += n;
+            $("<li><span class='num'/><span class='den'/></li>")
+              .find(".num").text(n).end()
+              .find(".den").text("/" + descriptors[idx].sides).end()
+              .appendTo(ul);
+          }
+        }
+
+        ul.appendTo(".current-result");
+
+        $("<div><span class='msg'/><span class='total'/></div>")
+          .addClass("total-display")
+          .find(".msg").text("Total=" + (mod ? total + "+" + mod + "=": "")).end()
+          .find(".total").text(total + mod).end()
+          .appendTo(".current-result");
+      }
+
+      $(function() {
+        $("#roll-descriptor").on("change keyup", function() {
+          var string = $("#roll-descriptor").val();
+
+          try {
+            descriptors = descriptorParser.parse(string);
+            $(".input button").removeClass("disabled");
+          }
+          catch (e) {
+            $(".input button").addClass("disabled");
+          }
+        });
+
+        $(document).on("click", ".input button:not(.disabled)", roll);
+        $(document).on("keyup", "#roll-descriptor", function(evt) {
+          if(evt.keyCode == 13 && $(".input button").is(":not(.disabled)")) {
+            roll();
+          }
+        });
+
+        $("#roll-descriptor").focus();
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container-narrow">
+      <div class="input">
+        <div class="input-append">
+          <input class="span7" id="roll-descriptor" type="text" placeholder="5d6 4d20">
+          <button class="btn btn-large disabled" type="button">Roll</button>
+        </div>
+      </div>
+      <div class="output">
+        <div class="current-result"></div>
+      </div>
+    </div>
+  </body>
+</html>

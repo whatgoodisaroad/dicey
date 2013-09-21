@@ -1,0 +1,13 @@
+start = descList
+descList = ds:descListEntry* d:desc { return ds.concat([d]); }
+descListEntry = d:desc [, ]+ { return d; }
+desc = q:quantity [Dd] s:sides m:modifiers { return { quantity:q, sides:s, modifier:m.substring ? 0 : m }; }
+quantity = d:[0-9]* { return d.length ? parseInt(d.join(""), 10) : 1; }
+sides = d:[0-9]+ { return parseInt(d.join(""), 10); }
+modifiers = ms:modifier* { 
+  for (var i = 0, t = 0; i < ms.length; ++i) { 
+    t += ms[i]; 
+  } 
+  return t; 
+}
+modifier = [ ]* "+" [ ]* m:sides { return m; }
