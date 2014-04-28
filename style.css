@@ -1,4 +1,5 @@
 body {
+  min-width: 640px;
   padding-top: 20px;
   padding-bottom: 40px;
 }
@@ -49,4 +50,26 @@ ul.roll-results li .den {
 .total-display .total {
   font-size:55px;
   line-height:55px;
+}
+
+@media screen and (max-width: 670px){
+  .container-narrow {
+    width:99%;
+    padding:2px;
+  }
+  #roll-descriptor {
+    width: 520px;
+  }
+  ul.roll-results li .num,
+  .total-display .total {
+    font-size:20pt;
+    line-height:20pt;
+  }
+
+  ul.roll-results li .den,
+  .total-display .msg {
+    font-size:15pt;
+    line-height:15pt;
+  }
+
 }
